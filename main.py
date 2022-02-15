@@ -1,11 +1,13 @@
 import pygame as pg
 import os
-import rich
+from rich import print
 
 pg.init()
 screen=pg.display.set_mode((800,600))
 clock = pg.time.Clock()
 
+letters = [chr(i) for i in range(65,91)]
+print(letters)
 text = ''
 word = ''
 myfont = pg.font.Font(os.path.join("Fonts","dpcomic.ttf"),50)
@@ -31,11 +33,15 @@ while True:
                     word+=event.unicode
                 if event.key == pg.K_RETURN:
                     status=1
+        word = word.capitalize()
         word_surf = largefont.render(word,False,"Orange")
         screen.blit(word_surf,(center[0]-word_surf.get_width()/2,center[1]-word_surf.get_height()/2+40))
 
     
     if status==1:
+        
+
+        
         for event in events:
             if event.type==pg.KEYDOWN:
                 if event.key == pg.K_BACKSPACE:
