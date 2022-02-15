@@ -35,13 +35,13 @@ while True:
                     status=1
         word = word.capitalize()
         word_surf = largefont.render(word,False,"Orange")
-        word_list = str(word.upper())
+        word_list = set(word.upper())
         screen.blit(word_surf,(center[0]-word_surf.get_width()/2,center[1]-word_surf.get_height()/2+40))
 
     
     if status==1:
         
-        guessed = list(text.upper())
+        guessed = set(text.upper())
         for i,letter in enumerate(letters):
             if letter in guessed:
                 if letter in word_list:
