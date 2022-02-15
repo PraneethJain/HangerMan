@@ -1,11 +1,13 @@
 import pygame as pg
 import os
-import rich
+from rich import print
 
 pg.init()
 screen=pg.display.set_mode((800,600))
 clock = pg.time.Clock()
 
+letters = [chr(i) for i in range(65,91)]
+print(letters)
 text = ''
 word = ''
 myfont = pg.font.Font(os.path.join("Fonts","dpcomic.ttf"),50)
@@ -31,18 +33,30 @@ while True:
                     word+=event.unicode
                 if event.key == pg.K_RETURN:
                     status=1
+        word = word.capitalize()
         word_surf = largefont.render(word,False,"Orange")
+        word_list = set(word.upper())
         screen.blit(word_surf,(center[0]-word_surf.get_width()/2,center[1]-word_surf.get_height()/2+40))
 
     
     if status==1:
-        for event in events:
-            if event.type==pg.KEYDOWN:
-                if event.key == pg.K_BACKSPACE:
-                    text=text[:-1]
+        
+        guessed = set(text.upper())
+        for i,letter in enumerate(letters):
+            if letter in guessed:
+                if letter in word_list:
+                    surf=myfont.render(letter,False,"Green")
+                    screen.blit(surf,(17+i*screen.get_width()/27,screen.get_height()-50))
                 else:
-                    text += event.unicode
-            
+                    surf=myfont.render(letter,False,"Red")
+                    screen.blit(surf,(17+i*screen.get_width()/27,screen.get_height()-50))
+            else:
+                surf=myfont.render(letter,False,"White")
+                screen.blit(surf,(17+i*screen.get_width()/27,screen.get_height()-50))
+        
+        for event in events:
+            if event.type==pg.KEYDOWN and event.key != pg.K_BACKSPACE: text += event.unicode
+
         text_surf = myfont.render(text,False,(0,128,128))
         screen.blit(text_surf,(0,0))
     
