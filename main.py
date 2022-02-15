@@ -35,6 +35,7 @@ while True:
                     status=1
         word = word.capitalize()
         word_surf = largefont.render(word,False,"Orange")
+        word_list = str(word.upper())
         screen.blit(word_surf,(center[0]-word_surf.get_width()/2,center[1]-word_surf.get_height()/2+40))
 
     
@@ -43,19 +44,19 @@ while True:
         guessed = list(text.upper())
         for i,letter in enumerate(letters):
             if letter in guessed:
-                surf=myfont.render(letter,False,"Red")
-                screen.blit(surf,(17+i*screen.get_width()/27,screen.get_height()-50))
+                if letter in word_list:
+                    surf=myfont.render(letter,False,"Green")
+                    screen.blit(surf,(17+i*screen.get_width()/27,screen.get_height()-50))
+                else:
+                    surf=myfont.render(letter,False,"Red")
+                    screen.blit(surf,(17+i*screen.get_width()/27,screen.get_height()-50))
             else:
-                surf=myfont.render(letter,False,"Green")
+                surf=myfont.render(letter,False,"White")
                 screen.blit(surf,(17+i*screen.get_width()/27,screen.get_height()-50))
         
         for event in events:
-            if event.type==pg.KEYDOWN:
-                if event.key == pg.K_BACKSPACE:
-                    text=text[:-1]
-                else:
-                    text += event.unicode
-            
+            if event.type==pg.KEYDOWN and event.key != pg.K_BACKSPACE: text += event.unicode
+
         text_surf = myfont.render(text,False,(0,128,128))
         screen.blit(text_surf,(0,0))
     
