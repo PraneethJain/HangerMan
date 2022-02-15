@@ -40,7 +40,14 @@ while True:
     
     if status==1:
         
-
+        guessed = list(text.upper())
+        for i,letter in enumerate(letters):
+            if letter in guessed:
+                surf=myfont.render(letter,False,"Red")
+                screen.blit(surf,(17+i*screen.get_width()/27,screen.get_height()-50))
+            else:
+                surf=myfont.render(letter,False,"Green")
+                screen.blit(surf,(17+i*screen.get_width()/27,screen.get_height()-50))
         
         for event in events:
             if event.type==pg.KEYDOWN:
