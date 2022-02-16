@@ -4,6 +4,7 @@ from rich import print
 
 
 pg.init()
+pg.display.set_caption("Hanger Man")
 screen=pg.display.set_mode((800,600))
 clock = pg.time.Clock()
 
@@ -61,8 +62,10 @@ while True:
             if event.type==pg.KEYDOWN:
                 if event.unicode.upper()!='' and event.unicode.upper() in replaced:
                     j = replaced.find(event.unicode.upper())
-                    replaced=replaced.replace(word[j],'0',1)
-                    maintext=maintext[:2*j]+event.unicode.upper()+maintext[2*j+1:]
+                    while replaced.count(word[j])!=0:
+                        j = replaced.find(event.unicode.upper())
+                        replaced=replaced.replace(word[j],'0',1)
+                        maintext=maintext[:2*j]+event.unicode.upper()+maintext[2*j+1:]
 
         main = largefont.render(maintext,False,"Pink")
         text_surf = myfont.render(text,False,(0,128,128))
