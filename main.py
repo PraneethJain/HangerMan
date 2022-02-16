@@ -6,6 +6,7 @@ from time import sleep
 
 pg.init()
 pg.display.set_caption("Hanger Man")
+pg.display.set_icon(pg.image.load(os.path.join("Assets","icon.png")))
 screen=pg.display.set_mode((800,600))
 clock = pg.time.Clock()
 bg=pg.image.load(os.path.join("Assets","bg.jpg")).convert_alpha()
@@ -23,6 +24,7 @@ center = screen.get_width()/2,screen.get_height()/2
 
 attempts_left=7
 status=0
+
 while True:
     
     if pg.event.get(pg.QUIT): raise SystemExit
@@ -89,7 +91,7 @@ while True:
             sleep(1)
             status=2
             
-        if set(guessed)==set(word):
+        if set(word).issubset(guessed):
             you_win = largefont.render("You Win!",False,"White")
             pg.display.flip()
             sleep(1)
@@ -105,4 +107,3 @@ while True:
     
     clock.tick(60)
     pg.display.flip()
-    
