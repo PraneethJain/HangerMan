@@ -2,7 +2,9 @@ import pygame as pg
 import os
 from rich import print
 
+
 pg.init()
+pg.display.set_caption("Hanger Man")
 screen=pg.display.set_mode((800,600))
 clock = pg.time.Clock()
 
@@ -31,21 +33,21 @@ while True:
                 else:
                     word+=event.unicode
                 if event.key == pg.K_RETURN:
-                    word_list = list(word.upper().strip())
-                    print(word_list)
-                    maintext="_ " * (len(word_list))
+                    word=word.upper().strip()
+                    replaced=word
+                    maintext="_ " * (len(word))
                     status=1
-        word = word.capitalize()
-        word_surf = largefont.render(word,False,"Orange")
+
+        word_surf = largefont.render(word.capitalize(),False,"Orange")
         screen.blit(word_surf,(center[0]-word_surf.get_width()/2,center[1]-word_surf.get_height()/2+40))
 
     
     if status==1:
         
-        guessed = list(text.upper())
+        guessed = text.upper().strip()
         for i,letter in enumerate(letters):
             if letter in guessed:
-                if letter in word_list:
+                if letter in word:
                     surf=myfont.render(letter,False,"Green")
                     screen.blit(surf,(17+i*screen.get_width()/27,screen.get_height()-50))
                 else:
@@ -57,6 +59,13 @@ while True:
         
         for event in events:
             if event.type==pg.KEYDOWN and event.key != pg.K_BACKSPACE: text += event.unicode
+            if event.type==pg.KEYDOWN:
+                if event.unicode.upper()!='' and event.unicode.upper() in replaced:
+                    j = replaced.find(event.unicode.upper())
+                    while replaced.count(word[j])!=0:
+                        j = replaced.find(event.unicode.upper())
+                        replaced=replaced.replace(word[j],'0',1)
+                        maintext=maintext[:2*j]+event.unicode.upper()+maintext[2*j+1:]
 
         main = largefont.render(maintext,False,"Pink")
         text_surf = myfont.render(text,False,(0,128,128))
