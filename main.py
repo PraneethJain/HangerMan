@@ -2,13 +2,6 @@ import pygame as pg
 import os
 from rich import print
 
-def find_nth(haystack, needle, n):
-    start = haystack.find(needle)
-    while start >= 0 and n > 1:
-        start = haystack.find(needle, start+len(needle))
-        n -= 1
-    return start
-
 
 pg.init()
 screen=pg.display.set_mode((800,600))
@@ -67,10 +60,8 @@ while True:
             if event.type==pg.KEYDOWN and event.key != pg.K_BACKSPACE: text += event.unicode
             if event.type==pg.KEYDOWN:
                 if event.unicode.upper()!='' and event.unicode.upper() in replaced:
-                    # j = find_nth(word,event.unicode.upper(),1)-1
                     j = replaced.find(event.unicode.upper())
                     replaced=replaced.replace(word[j],'0',1)
-                    print(replaced)
                     maintext=maintext[:2*j]+event.unicode.upper()+maintext[2*j+1:]
 
         main = largefont.render(maintext,False,"Pink")
