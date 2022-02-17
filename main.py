@@ -1,15 +1,24 @@
 import pygame as pg
 import os
-from rich import print
+import sys
 from time import sleep
+
+def resource_path(relative_path):
+    try:
+    # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 
 pg.init()
 pg.display.set_caption("Hanger Man")
-pg.display.set_icon(pg.image.load(os.path.join("Assets","icon.png")))
+pg.display.set_icon(pg.image.load(resource_path('Assets\icon.png')))
 screen=pg.display.set_mode((800,600))
 clock = pg.time.Clock()
-bg=pg.image.load(os.path.join("Assets","bg.jpg")).convert_alpha()
+bg=pg.image.load(resource_path('Assets\\bg.jpg')).convert_alpha()
 scale=2
 bg=pg.transform.scale(bg,(bg.get_width()/scale,bg.get_height()/scale))
 bg_pos = screen.get_width()/2-bg.get_width()/2, screen.get_height()/2-bg.get_height()/2+150
@@ -17,12 +26,12 @@ bg_pos = screen.get_width()/2-bg.get_width()/2, screen.get_height()/2-bg.get_hei
 letters = [chr(i) for i in range(65,91)]
 text = ''
 word = ''
-myfont = pg.font.Font(os.path.join("Fonts","dpcomic.ttf"),50)
-largefont = pg.font.Font(os.path.join("Fonts","dpcomic.ttf"),70)
+myfont = pg.font.Font(resource_path('Fonts\dpcomic.ttf'),50)
+largefont = pg.font.Font(resource_path('Fonts\dpcomic.ttf'),70)
 start_surf = largefont.render("Enter word and press enter",False,'Blue')
 center = screen.get_width()/2,screen.get_height()/2
 
-man_images = [pg.transform.scale2x(pg.image.load(os.path.join("Assets",f'man{i}.png'))) for i in range(7)]
+man_images = [pg.transform.scale2x(pg.image.load(resource_path(f'Assets/man{i}.png'))) for i in range(7)]
 attempts=6
 attempts_left=attempts
 status=0
